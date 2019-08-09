@@ -1,5 +1,6 @@
 from random import randint
 
+#Get Cards
 def Card(start=10, end=18, num=10):
     print('Your Card')
     B = []
