@@ -579,19 +579,17 @@ def solve():
 
 
 def multi_player():
-    r=int(input('how many player :'))
-    
-    for player in range(r):
-        def enter_name():
+    PlayerNo=int(input('Enter how many players:'))
+    print('\nEnter Names of',PlayerNo,'Player: ')
+    for player in range(PlayerNo):
+        while len(player_names) != PlayerNo :
             name = input('\n Player Name: ')
             if not name in player_names:
                 player_names.append(name)
-                print('\n')
             else:
                 print('\n A player with same name already exist. !! \n')
-                enter_name()
-        enter_name()    
-    print('You have Entered Player Names: ',player_names)
+    
+    print('\nYou have Entered Player Names: ',player_names)
     game=input('\nPress ENTER for Continue.. \n')
     for p in player_names:
         print (p)
