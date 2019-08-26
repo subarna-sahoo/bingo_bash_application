@@ -1,70 +1,199 @@
 import time
 import random
-from random import randint
+from prettytable import PrettyTable
 
-CardData = {}
+Bingo = 4
+count = {}
+def DecreaseBingo():
+    global Bingo
+    if Bingo > 0:
+        Bingo -= 1
+        print('BINGO LEFT: (',Bingo,")\n")
+        if Bingo == 0:
+            print('\n||  E N D  -  G A M E  ||\n')
+            for P in count:
+                i= 0
+                for score in count[P]:
+                    i +=score[12]
+                print('\n>Player',P,'Got',i,'Bingos !!')
+    
 class Card:
-    def __init__(self,PlayerNmae,NoOfCard):
-        CardData[PlayerNmae]=[]
-        for Card in range(NoOfCard):
-            B = []
-            I = []
-            N = []
-            G = []
-            O = []
-            #Random elements without repetition
-            while len(B) != 5:
-                element=randint(1,15)
-                if not element in B:
-                            B.append(element)
-            while len(I) != 5:
-                element=randint(16,30)
-                if not element in I:
-                            I.append(element)
-            while len(N) != 5:
-                element=randint(31,45)
-                if not element in N:
-                            N.append(element)
-            while len(G) != 5:
-                element=randint(46,60)
-                if not element in G:
-                            G.append(element)
-            while len(O) != 5:
-                element=randint(61,75)
-                if not element in O:
-                            O.append(element)
-            CardData[PlayerNmae].append([B,I,N,G,O])
+    def __init__(self):
+        self.CardData = []
+    def GetCard(self,R):
+        for Card in range(R):
+            LC=[]
+            while len(LC) != 5:
+                element=random.randint(1,15)
+                if not element in LC:
+                    LC.append(element)
+            while len(LC) != 10:
+                element=random.randint(16,30)
+                if not element in LC:
+                    LC.append(element)
+            while len(LC) != 15:
+                element=random.randint(31,45)
+                if not element in LC:
+                    LC.append(element)
+            while len(LC) != 20:
+                element=random.randint(46,60)
+                if not element in LC:
+                    LC.append(element)
+            while len(LC) != 25:
+                element=random.randint(61,75)
+                if not element in LC:
+                    LC.append(element) 
+            self.CardData.append(LC)
+        return self.CardData
+    
+    def ShowCard(self,player,card):
+        Table = PrettyTable()
+        IND = PlayerData[player].index(card)
+        Table.title="{}, Card-( {} )".format(player,IND+1)
+        Table.field_names=["B", "I", "N", "G", "O"]
+        Table.add_row([card[0],card[5],card[10],card[15],card[20]])
+        Table.add_row([card[1],card[6],card[11],card[16],card[21]])
+        Table.add_row([card[2],card[7],card[12],card[17],card[22]])
+        Table.add_row([card[3],card[8],card[13],card[18],card[23]])
+        Table.add_row([card[4],card[9],card[14],card[19],card[24]])
+        time.sleep(0.01)
+        return Table
 
-        #Printing Cards:-
-        print('\n>',PlayerNmae,'Chosed',NoOfCard,'Card >\n')
-        time.sleep(0.5)
-        for showcard in range(len(CardData[PlayerNmae])): 
-            for i in range(len(CardData[PlayerNmae][showcard])) :
-                for j in range(len(CardData[PlayerNmae][showcard][i])) :  
-                    print(CardData[PlayerNmae][showcard][i][j], end=" ")
-                print()
-            print()   #SAME AS (end='\n')
-            time.sleep(0.1)
-        time.sleep(0.5)
-
-
+    def ElectCard(self,Element,PlayerData):
+        for player in PlayerData:
+            for card in PlayerData[player]:
+                if Bingo>0:
+                    if Element in card:
+                        IND=card.index(Element)
+                        card[IND] = 0
+                        Card().CheckBingo(card,player)
+                    else:
+                        print(Card().ShowCard(player,card),'  ✘ No MATCH \n')
+                        pass
+                else:
+                    break
+    def CheckBingo(self,card,player):
+        print(Card().ShowCard(player,card),' ✔ Selected \n')
+        cardIND = PlayerData[player].index(card) #CARD index in count
+        #Horizontal
+        if ([card[0],card[1],card[2],card[3],card[4]]==[0,0,0,0,0] and count[player][cardIND][0] == 0) :#H1
+            print(Card().ShowCard(player,card),'  ✅ B I N G O  \n')
+            count[player][cardIND][0] += 1
+            count[player][cardIND][12] += 1
+            DecreaseBingo()
+        elif ([card[5],card[6],card[7],card[8],card[9]]==[0,0,0,0,0] and count[player][cardIND][1] == 0) :#H2
+            print(Card().ShowCard(player,card),'  ✅BINGO  \n')
+            count[player][cardIND][1] += 1
+            count[player][cardIND][12] += 1
+            DecreaseBingo()
+        elif ([card[10],card[11],card[12],card[13],card[14]]==[0,0,0,0,0] and count[player][cardIND][2] == 0) :#H3
+            print(Card().ShowCard(player,card),'  ✅BINGO  \n')
+            count[player][cardIND][2] += 1
+            count[player][cardIND][12] += 1
+            DecreaseBingo()
+        elif ([card[15],card[16],card[17],card[18],card[19]]==[0,0,0,0,0] and count[player][cardIND][3] == 0) :#H4
+            print(Card().ShowCard(player,card),'  ✅BINGO  \n')
+            count[player][cardIND][3] += 1
+            count[player][cardIND][12] += 1
+            DecreaseBingo()
+        elif ([card[20],card[21],card[22],card[23],card[24]]==[0,0,0,0,0] and count[player][cardIND][4] == 0) :#H5
+            print(Card().ShowCard(player,card),'  ✅BINGO  \n')
+            count[player][cardIND][4] += 1
+            count[player][cardIND][12] += 1
+            DecreaseBingo()
+        #Vertical
+        elif ([card[0],card[5],card[10],card[15],card[20]]==[0,0,0,0,0] and count[player][cardIND][5] == 0) :#v1
+            print(Card().ShowCard(player,card),'  ✅BINGO  \n')
+            count[player][cardIND][5] += 1
+            count[player][cardIND][12] += 1
+            DecreaseBingo()   
+        elif ([card[1],card[6],card[11],card[16],card[21]]==[0,0,0,0,0] and count[player][cardIND][6] == 0) :#v2
+            print(Card().ShowCard(player,card),'  ✅BINGO  \n')
+            count[player][cardIND][6] += 1
+            count[player][cardIND][12] += 1
+            DecreaseBingo()
+        elif ([card[2],card[7],card[12],card[17],card[22]]==[0,0,0,0,0] and count[player][cardIND][7] == 0):#v3
+            print(Card().ShowCard(player,card),'  ✅BINGO  \n')
+            count[player][cardIND][7] += 1
+            count[player][cardIND][12] += 1
+            DecreaseBingo()
+        elif ([card[3],card[8],card[13],card[18],card[23]]==[0,0,0,0,0] and count[player][cardIND][8] == 0):#v4
+            print(Card().ShowCard(player,card),'  ✅BINGO  \n')
+            count[player][cardIND][8] += 1
+            count[player][cardIND][12] += 1
+            DecreaseBingo()
+        elif ([card[4],card[9],card[14],card[19],card[24]]==[0,0,0,0,0] and count[player][cardIND][9] == 0):#v5
+            print(Card().ShowCard(player,card),'  ✅BINGO  \n')
+            count[player][cardIND][9] += 1
+            count[player][cardIND][12] += 1
+            DecreaseBingo()
+        #Diagonal    
+        elif ([card[0],card[6],card[12],card[18],card[24]]==[0,0,0,0,0] and count[player][cardIND][10] == 0):#D1
+            print(Card().ShowCard(player,card),'  ✅BINGO  \n')
+            count[player][cardIND][10] += 1
+            count[player][cardIND][12] += 1
+            DecreaseBingo()
+        elif ([card[4],card[8],card[12],card[16],card[20]]==[0,0,0,0,0] and count[player][cardIND][11] == 0):#D2
+            print(Card().ShowCard(player,card),'  ✅BINGO  \n')
+            count[player][cardIND][11] += 1
+            count[player][cardIND][12] += 1
+            DecreaseBingo() 
+        else:
+            pass
+        
 class Game:
     def __init__(self):
-        pass
-        
-class Player:
-    PlayerData = {}
-    PlayerNo=int(input('how many player: '))
-    print('\nEnter Names of',PlayerNo,'Player: ')
-    for player in range(PlayerNo):
-        while len(PlayerData) != PlayerNo :
-            Name = input('\n Player Name: ')
-            if not Name in PlayerData:
-               PlayerData[Name] = random.randint(1,4)#selecting cards for 
+        calledElement = []
+        while Bingo > 0 :
+            Element=(random.randint(1,75))
+            if not Element in calledElement:
+                calledElement.append(Element)
+                print('\n******Game Call:(',Element,')******\n')
+                time.sleep(0.5)
+                Player().PassElement(Element)
             else:
-                print('\n A player with same name already exist. !! \n')
-    print('')
-    for PlayerNmae in PlayerData:
-        NoOfCard = PlayerData [ PlayerNmae ]
-        callCard = Card(PlayerNmae,NoOfCard)
-    input('Press ENTER to Continue >>')
+                pass
+        #for CHECK SCORE
+            
+class Player:
+    def PlayersData(self):
+        global PlayerData
+        PlayerData = {}
+        while True:
+            try:
+                PlayerNo = int(input('\n How many Players:'))
+                break
+            except:
+                print("\n!! That's Not a valid option !!\n")
+        print('\n Enter Names of',PlayerNo,'Players: ')
+        for player in range(PlayerNo):
+            while len(PlayerData) != PlayerNo :
+                PlayerName = input('\n -Player NAME: ')
+                if not PlayerName in PlayerData:
+                   PlayerData[PlayerName] = random.randint(1,4)
+                   print('\n*Player',PlayerName,'Chosed (',PlayerData[PlayerName],') Card')
+                else:
+                    print('\n!! A Player with same NAME Already Exist !! \n')
+        print('\n\n',PlayerData,'\n')
+        for Pname in PlayerData:
+            count[Pname]=[]
+            for cards in range(PlayerData[Pname]):
+                count[Pname].append([0,0,0,0,0, 0,0,0,0,0, 0,0,0])
+                # [ H1,H2,H3,H4,H5, V1,V2,V3,V4,V5, D1,D2, @SCORE ]
+        time.sleep(1)
+        #GET CARDs
+        for player in PlayerData:
+            R= PlayerData[player]
+            PlayerData[player]=Card().GetCard(R)
+        #SHOW CARDs
+        for player in PlayerData:
+            for card in PlayerData[player]:
+                IND = PlayerData[player].index(card)
+                print(Card().ShowCard(player,card))
+            print('\n\n\n')
+        input('\nSTART GAME <-\n')
+        Game()
+    def PassElement(self,Element):
+        Card().ElectCard(Element,PlayerData)
+        
+Player().PlayersData()
