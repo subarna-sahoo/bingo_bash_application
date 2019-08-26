@@ -11,7 +11,7 @@ count={} #Not to repeat any bingo evaluation #Also for check score.
 def decBingo(player):
     global bingo
     bingo -= 1
-    print("Player ",player ,'Got A BINGO (*_*) \n'bingo'-BINGOs LEFT)
+    print("Player ",player ,'Got A BINGO (*_*) \nBINGOS LEFT: ',bingo)
     time.sleep(0.2)
     if bingo == 0:
         return True
