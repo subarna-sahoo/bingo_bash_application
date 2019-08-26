@@ -5,13 +5,14 @@ from prettytable import PrettyTable
 
 
 CardData=[]
-bingo = 4
+bingo = 6
 count={} #Not to repeat any bingo evaluation #Also for check score.
 
 def decBingo(player):
     global bingo
     bingo -= 1
-    print('''\n|>Player  {}  Got A BINGO \n|>Bingo left {}'''.format(player,bingo))
+    print("Player ",player ,'Got A BINGO (*_*) \n'bingo'-BINGOs LEFT)
+    time.sleep(0.2)
     if bingo == 0:
         return True
     while True:
@@ -56,21 +57,21 @@ class Card:
                 print()
         return self.CardData
     def ShowCard(self,d,player,card):
-        Title = ("""Name: {}, Card NO ( {} )""".format(player,card))
+        Title = (""" {} , Card NO: {}""".format(player,card))
+        print(Title)
         x = PrettyTable()
-        x.title = Title
+        x.title = [Title]
         x.field_names = ["B", "I", "N", "G", "O"]
+        x.title = [Title]
         x.add_row([d[player][card][0],d[player][card][1],d[player][card][2],d[player][card][3],d[player][card][4]])
         x.add_row([d[player][card][5],d[player][card][6],d[player][card][7],d[player][card][8],d[player][card][9]])
         x.add_row([d[player][card][10],d[player][card][11],d[player][card][12],d[player][card][13],d[player][card][14]])
         x.add_row([d[player][card][15],d[player][card][16],d[player][card][17],d[player][card][18],d[player][card][19]])
         x.add_row([d[player][card][20],d[player][card][21],d[player][card][22],d[player][card][23],d[player][card][24]])
         print(x,'\n\n')
-          
     def EvaluateCard(self,element):
-        print('____________________________\n\n')
-        print('|>>>>                        GAME CALL: (',element,')\n')#Finall Printing that Element here @Game<<
-        time.sleep(0)
+        print('______Game Call (',element,')______\n\n')
+        time.sleep(0.1)
         for d in CardData:  #In 'd' we have the actual DATA 
             for player in d:
                 for card in range(len(d[player])):  #will Check all cards of every player for selection as (0)
@@ -78,7 +79,6 @@ class Card:
                         if element in d[player][card]:
                             ind = d[player][card].index(element)
                             d[player][card][ind]=0
-                            Card().ShowCard(d,player,card)
                             #==========                                                     
                             H1=[d[player][card][0],d[player][card][1],d[player][card][2],d[player][card][3],d[player][card][4]]
                             H2=[d[player][card][5],d[player][card][6],d[player][card][7],d[player][card][8],d[player][card][9]]
@@ -99,52 +99,52 @@ class Card:
                             if (H1==[0,0,0,0,0] and count[player][card][0]==0 and bingo>0 ):
                                 count[player][card][0] = 1  #H1
                                 count[player][card][12] +=1  # +Score
-                               
+                                Card().ShowCard(d,player,card)
                                 decBingo(player)
                             elif (H2==[0,0,0,0,0] and count[player][card][1]==0 and bingo>0 ):
                                 count[player][card][1] = 1 #H2
                                 count[player][card][12] +=1  # +Score
-                              
+                                Card().ShowCard(d,player,card)
                                 decBingo(player)
                             elif (H3==[0,0,0,0,0] and count[player][card][2]==0 and bingo>0 ):
                                 count[player][card][2] = 1 #H3
                                 count[player][card][12] +=1  # +Score
-                           
+                                Card().ShowCard(d,player,card)
                                 decBingo(player)
                             elif (H1==[0,0,0,0,0] and count[player][card][3]==0 and bingo>0 ):
                                 count[player][card][3] = 1 #H4
                                 count[player][card][12] +=1  # +Score
-                                
+                                Card().ShowCard(d,player,card)
                                 decBingo(player)
                             elif (H1==[0,0,0,0,0] and count[player][card][4]==0 and bingo>0 ):
                                 count[player][card][4] = 1 #H5
                                 count[player][card][12] +=1  # +Score
-                                
+                                Card().ShowCard(d,player,card)
                                 decBingo(player)
                             #Vertical ::
                             elif (H1==[0,0,0,0,0] and count[player][card][5]==0 and bingo>0 ):
                                 count[player][card][5] = 1 #V1
                                 count[player][card][12] +=1  # +Score
-                                
+                                Card().ShowCard(d,player,card)
                                 decBingo(player)
                             elif (H1==[0,0,0,0,0] and count[player][card][6]==0 and bingo>0 ):
                                 count[player][card][6] = 1 #V2
                                 count[player][card][12] +=1  # +Score
-                                
+                                Card().ShowCard(d,player,card)
                                 decBingo(player)
                             elif (H1==[0,0,0,0,0] and count[player][card][7]==0 and bingo>0 ):
                                 count[player][card][7] = 1 #V3
                                 count[player][card][12] +=1  # +Score
-                                
+                                Card().ShowCard(d,player,card)
                                 decBingo(player)
                             elif (H1==[0,0,0,0,0] and count[player][card][8]==0 and bingo>0 ):
                                 count[player][card][8] = 1 #V4
                                 count[player][card][12] +=1  # +Score
-                             
+                                Card().ShowCard(d,player,card)
                             elif (H1==[0,0,0,0,0] and count[player][card][9]==0 and bingo>0 ):
                                 count[player][card][9] = 1 #V5
                                 count[player][card][12] +=1  # +Score
-                              
+                                Card().ShowCard(d,player,card)
                                 decBingo(player)
                             #Diagonal ::
                             elif  (H1==[0,0,0,0,0] and count[player][card][10]==0 and bingo>0 ):
@@ -159,6 +159,7 @@ class Card:
                                 decBingo(player)
                             else:
                                 Card().ShowCard(d,player,card)
+                                time.sleep(0.1)
                                 pass
                     except ValueError:
                         pass
@@ -175,8 +176,15 @@ class Game:
             elif len(called_element)==75:
                 print('\n|  E n d - G A M E  |')
                 break
-        print('\n|> B I N G O - L E F T : ',bingo,' ')
+        print('\nBingo Left : ',bingo,' \n')
+        for P in count:
+            i= 0
+            for score in count[P]:
+                i +=score[12]
+            print('Player',P,'Got',i,'Bingos !!')
         print('\n|  E n d - G A M E  |')
+
+        
 
         
 class Player(Card):
